@@ -1,0 +1,24 @@
+{
+	"name": "electron-app",
+	"version": "0.1.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "electron-webpack dev",
+		"build": "electron-webpack && electron-builder"
+	},
+	"author": "SrPatinhas",
+	"license": "MIT",
+	"devDependencies": {
+		"electron": "latest",
+		"electron-builder": "latest",
+		"electron-webpack": "latest",
+		"vue": "latest",
+		"vue-loader": "latest",
+		"vue-template-compiler": "latest",
+		"webpack": "latest"
+	},
+	"dependencies": {
+		"source-map-support": "latest"
+	}
+}

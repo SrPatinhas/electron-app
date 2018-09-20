@@ -1,0 +1,142 @@
+.app {
+  width: 800px;
+  height: 555px;
+  background: #eee;
+  border-radius: 5px 5px 0 0;
+}
+.bar {
+  height: 30px;
+  box-sizing: border-box;
+  font-size: 0;
+}
+.cell {
+  display: inline-block;
+  margin-left: 5px;
+  height: 30px;
+  box-sizing: border-box;
+}
+.cell.window-controls {
+  width: 54px;
+  padding: 0px 2px 0px 2px;
+}
+.cell.window-controls .btn {
+  margin-top: 10px;
+}
+.cell.tabs {
+  width: 672px;
+  padding: 0px;
+}
+.cell.tabs .tab {
+  display: block;
+  float: left;
+  margin: 7.5px 0px 0px 10px;
+  width: 15px;
+  height: 15px;
+  background: #bbb;
+  border-radius: 50%;
+  transition: 90ms;
+}
+.cell.tabs .tab.inactive {
+  -webkit-filter: opacity(45%) grayscale(30%);
+          filter: opacity(45%) grayscale(30%);
+}
+.cell.tabs .tab.active {
+  -webkit-transform: scale(1.5);
+          transform: scale(1.5);
+/*width: 22px
+				height: 22px
+				margin: 4px 0px 0px 10px*/
+  -webkit-filter: opacity(100%) grayscale(0%);
+          filter: opacity(100%) grayscale(0%);
+}
+.cell.tabs .tab:nth-child(1) {
+  background: url("https://cdn.dribbble.com/assets/dribbble-ball-192-ec064e49e6f63d9a5fa911518781bee0c90688d052a038f8876ef0824f65eaf2.png") no-repeat center;
+  background-size: 100%;
+}
+.cell.tabs .tab:nth-child(2) {
+  background: url("https://www.youtube.com/yt/about/media/images/brand-resources/icons/YouTube-icon-our_icon.png") no-repeat center;
+  background-size: 300%;
+}
+.cell.tabs .tab:nth-child(3) {
+  background: url("https://cfr.slack-edge.com/ae7f/img/services/twitter_512.png") no-repeat center;
+  background-size: 100%;
+}
+.cell.tabs .tab:nth-child(4) {
+  background: url("https://i0.wp.com/blog.codepen.io/wp-content/uploads/2012/06/Button-Fill-Black-Small.png?resize=125%2C125") no-repeat center;
+  background-size: 100%;
+}
+.cell.tabs svg {
+  display: block;
+  width: 30px;
+  height: 30px;
+  padding: 7.5px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  transition: 180ms;
+}
+.cell.tabs svg:active {
+  background: rgba(0,0,0,0.125);
+}
+.cell.tabs svg path {
+  fill: none;
+  stroke: #999;
+  stroke-width: 2px;
+  -webkit-transform-origin: center;
+          transform-origin: center;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.cell.tabs svg path.plus {
+  d: path("M8,4 L8,12 M4,8 L12,8");
+}
+.cell.navigation {
+  width: 54px;
+  padding-top: 5px;
+}
+.cell.navigation svg {
+  display: block;
+  float: right;
+  height: 16px;
+  width: 16px;
+  padding: 3px;
+  border-radius: 50%;
+  transition: 180ms;
+}
+.cell.navigation svg:active {
+  background: rgba(0,0,0,0.125);
+}
+.cell.navigation svg path {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2px;
+  -webkit-transform-origin: center;
+          transform-origin: center;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.cell.navigation svg path.burger {
+  d: path("M3,4 L13,4 M3,8 L13,8 M3,12 L13,12");
+}
+.btn.window {
+  display: block;
+  width: 10px;
+  height: 10px;
+  margin-left: 7px;
+  border-radius: 50%;
+  float: left;
+}
+.btn.window.red {
+  margin-left: 3px;
+  background: #e7524b;
+}
+.btn.window.yellow {
+  background: #efca00;
+}
+.btn.window.green {
+  background: #3fc772;
+}
+.content {
+  width: 100%;
+  height: 525px;
+  background: #599df0;
+}
