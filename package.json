@@ -19,6 +19,27 @@
 		"webpack": "latest"
 	},
 	"dependencies": {
-		"source-map-support": "latest"
+		"cheerio": "latest",
+		"iconv-lite": "latest",
+		"jquery": "latest",
+		"nedb": "latest",
+		"node-openload": "latest",
+		"opensubtitles-api": "latest",
+		"parse-torrent-name": "latest",
+		"path": "latest",
+		"request": "latest",
+		"semantic-ui": "^2.4.0",
+		"source-map-support": "latest",
+		"srt-to-vtt": "latest",
+		"torrent-stream": "latest",
+		"underscore": "latest",
+		"video.js": "latest",
+		"videojs-chromecast": "latest",
+		"videojs-hotkeys": "latest",
+		"videojs-select-subtitle": "latest",
+		"vue-izitoast": "^1.1.0",
+		"vuex": "^3.0.1",
+		"webtorrent": "latest",
+		"webtorrent-hybrid": "latest"
 	}
 }

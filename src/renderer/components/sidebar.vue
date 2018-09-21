@@ -1,330 +1,247 @@
-<!-- -------- -->
-<!-- MAIN APP -->
-<!-- -------- -->
-<section class="mainApp">
-	<div class="leftPanel">
-		<header>
-			<button class="trigger">
-				<i class="material-icons">&#xE5D2;</i>
-			</button>
-			
-			<input class="searchChats" type="search" placeholder="Search..."/>
-		</header>
-		<div class="chats">
-			<div class="chatButton active">
-				<div class="chatInfo">
-				<div class="image my-image">
-				
+<template>
+	<div>
+		<section :class='[open ? "menuWrap openSidebar" : "menuWrap"]'>
+			<div class="menu">
+				<div class="me userBg">
+					<div class="image"></div>
+
+					<div class="myinfo">
+						<p class="name">Random Name</p>
+						<p class="phone">+1 12 1234 5678</p>
+					</div>
+
+					<button class="settings">
+						<i class="fas fa-cog"></i>
+					</button>
+
+					<button class="cloud">
+						<i class="fas fa-sign-out-alt"></i>
+					</button>
 				</div>
-				
-				<p class="name">
-					Renan Mayrinck
-				</p>
-				
-				<p class="message">Actually, more ...</p>
-				</div>
-				
-				<div class="status onTop">
-					<p class="date">00:02</p>
-					<p class="count">10</p>
-					<i class="material-icons read">done_all</i>
-					<i class="material-icons fixed">loyalty</i>
-				</div>
-			</div>
-			
-			<div class="chatButton">
-				<div class="chatInfo">
-				<div class="image">
-				
-				</div>
-				
-				<p class="name">
-					Doge
-				</p>
-				
-				<p class="message">Wow!</p>
-				</div>
-				
-				<div class="status normal">
-					<p class="date">Now</p>
-					<p class="count">42</p>
-					<i class="material-icons read">done_all</i>
-					<i class="material-icons fixed">loyalty</i>
+				<nav>
+
+					<button v-for="app in pluginsList" :class="['ng', app.active ? 'active' : '']" @click="changePlugin(app.uuid, app.module)">
+						<img :src="app.icon" :alt="app.module">
+						<span>{{ app.label }}</span>
+					</button>
+				</nav>
+
+				<div class="info">
+					<p>Dreamovies App</p>
+					<p>Ver 0.0.1 - <a href="https://dreamovies.tk/app">About</a></p>
+					<p>App coded by: <a href="https://www.github.com/srpatinhas">SrPatinhas</a></p>
 				</div>
 			</div>
-		</div>
+		</section>
+		<overlay></overlay>
 	</div>
-	
-	<div class="rightPanel">
-		<div class="topBar">
-			<div class="rightSide">
-				<button class="tbButton search">
-					<i class="material-icons">&#xE8B6;</i>
-				</button>
-				<button class="tbButton otherOptions">
-					<i class="material-icons">more_vert</i>
-				</button>
-			</div>
-			
-			<div class="leftSide">
-			<p class="chatName">Renan Mayrinck <span>@Grisson</span></p>
-			<p class="chatStatus">Online</p>
-			</div>
-		</div>
-		
-		<div class="convHistory userBg">
-			<!-- CONVERSATION GOES HERE! -->
-			
-			<div class="msg messageReceived">
-				Dude, why no one did this before?
-				<span class="timestamp">00:00</span>
-			</div>
-			
-			<div class="msg messageSent">
-				Dunno...
-				<i class="material-icons readStatus">done_all</i>
-				<span class="timestamp">00:01</span>
-			</div>
-			
-			<div class="msg messageReceived">
-				This don't matter now, I did it!
-				<span class="timestamp">00:02</span>
-			</div>
-			
-			<div class="msg messageReceived">
-				Hope someone see this... Someday...
-				<span class="timestamp">00:02</span>
-			</div>
-			
-			<div class="msg messageSent">
-				Actually, more than 1700 people saw this.
-				<i class="material-icons readStatus">done</i>
-				<span class="timestamp">00:04</span>
-			</div>
-		</div>
-		
-		<div class="replyBar">
-			<button class="attach">
-				<i class="material-icons d45">attach_file</i>
-			</button>
-			
-			<input type="text" class="replyMessage" placeholder="Type your message..."/>
-			
-			<div class="emojiBar">
-				<div class="emoticonType">
-				<button id="panelEmoji">Emoji</button>
-				<button id="panelStickers">Stickers</button>
-				<button id="panelGIFs">GIFs</button>
-				</div>
-				
-				
-				<!-- Emoji panel -->
-				<div class="emojiList">
-					<button id="smileface" class="pick">
-				</button>
-					<button id="grinningface" class="pick"></button>
-					<button id="tearjoyface" class="pick"></button>
-					<button id="rofl" class="pick"></button>
-					<button id="somface" class="pick"></button>
-					<button id="swfface" class="pick"></button>
-				</div>
-				
-				<!-- the best part of telegram ever: STICKERS!! -->
-				<div class="stickerList">
-					<button id="smileface" class="pick">
-				</button>
-					<button id="grinningface" class="pick"></button>
-					<button id="tearjoyface" class="pick"></button>
-				</div>
-			</div>
-			
-			<div class="otherTools">
-				<button class="toolButtons emoji">
-					<i class="material-icons">face</i>
-				</button>
-				
-				<button class="toolButtons audio">
-					<i class="material-icons">mic</i>
-				</button>
-			</div>
-		</div>
-	</div>
-</section>
+</template>
 
-<!-- ---------------------- -->
-<!-- MENU AND OVERLAY STUFF -->
-<!-- ---------------------- -->
+<script>
+	import overlay from "./overlay";
 
-<!-- MENU -->
-<section class="menuWrap">
-	<div class="menu">
-		<div class="me userBg">
-			<div class="image"></div>
-			
-			<div class="myinfo">
-			<p class="name">Random Name</p>
-			<p class="phone">+1 12 1234 5678</p>
-			</div>
-			
-			<button class="cloud">
-				<i class="material-icons">cloud</i>
-			</button>
-			
-			<button class="settings">
-				<i class="material-icons">settings</i>
-			</button>
-			
-			<button class="cloud">
-				<i class="material-icons">cloud</i>
-			</button>
-		</div>
-		<nav>
-			<button class="ng">
-				<i class="material-icons">&#xE8D3;</i>
-				
-				<span>New Group</span>
-			</button>
-			
-			<button class="nc">
-				<i class="material-icons">&#xE0B6;</i>
-				
-				<span>New Channel</span>
-			</button>
-			
-			<button class="cn">
-				<i class="material-icons">&#xE851;</i>
-				
-				<span>Contacts</span>
-			</button>
-			
-			<button class="cl">
-				<i class="material-icons">&#xE0B0;</i>
-				
-				<span>Calls History</span>
-			</button>
-			
-			<a href="https://telegram.org/faq" target="_blank">
-			<button class="faq">
-				<i class="material-icons">&#xE000;</i>
-				
-				<span>FAQ and Support</span>
-			</button>
-			</a>
-			
-			<button class="lo">
-				<i class="material-icons">&#xE879;</i>
-				
-				<span>Logout</span>
-			</button>
-		</nav>
-		
-		<div class="info">
-		<p>Telegram Web</p>
-		<p>Ver 0.0.2 - <a href="https://en.wikipedia.org/wiki/Telegram_(messaging_service)">About</a></p>
-		<p>Layout coded by: <a href="https://www.github.com/mayrinck">Mayrinck</a></p>
-		</div>
-	</div>
-</section>
+	export default {
+		name: "sidebar",
+		components:{
+			overlay
+		},
+		props:{
+			open: true
+		},
+		data() {
+			return {
+				pluginsList: window.pluginList,
+			}
+		},
+		methods: {
+			changePlugin(uuid, plugin){
+				for (let index in this.pluginsList) {
+					if(this.pluginsList[index].uuid == uuid){
+						if(!this.pluginsList[index].active){
+							this.pluginsList[index].active = true;
+							//require("../../../plugins/" + this.pluginsList[index].module);
+							Event.$emit("changeModule", plugin);
+						}
+					} else {
+						this.pluginsList[index].active = false;
+					}
+				}
+			}
+		},
+	}
+</script>
 
-<!-- CONVERSATION OPTIONS MENU -->
-<div class="moreMenu">
-	<button class="option about">See Info</button>
-	<button class="option notify">Disable Notifications</button>
-	<button class="option block">Block User</button>
-</div>
+<style>
 
-<!-- MOBILE OVERLAY -->
-<section class="switchMobile">
-	<p class="title">Mobile Device Detected</p>
-	
-	<p class="desc">Switch to the mobile version for a better performance.</p>
-	
-	<a href="https://web.telegram.org/#/login"><button class="okay">OK</button></a>
-</section>
+a {
+	text-decoration: none;
+}
 
-<!-- PROFILE OPTIONS OVERLAY -->
-<section class="config">
-	<section class="configSect">
-		<div class="profile">
-		<p class="confTitle">Settings</p>
-		
-		<div class="image"></div>
-		
-		<div class="side">
-		<p class="name">Random Name</p>
-		<p class="pStatus">Online</p>
-		</div>
-			
-		<button class="changePic">Change Profile Picture</button>
-		<button class="edit">Edit Profile Info</button>
-	</div>
-	</section>
-	
-	<section class="configSect second">
-		
-		<!-- PROFILE INFO SECTION -->
-		<p class="confTitle">Your Info</p>
-		
-		<div class="information">
-			<ul>
-				<li>Phone Number: <span class="blue phone">+1 12 1234 5678</span></li>
-				<li>Username: <span class="blue username">@USERNAME</span></li>
-				<li>Profile: <span class="blue">https://t.me/USERNAME</span></li>
-			</ul>
-		</div>
-		
-		<!-- NOTIFICATIONS SECTION -->
-		<p class="confTitle">Notifications</p>
-		
-		<div class="optionWrapper deskNotif">
-			<input type="checkbox" id="deskNotif" class="toggleTracer" checked>
+button {
+	cursor: pointer;
+}
 
-			<label class="check deskNotif" for="deskNotif">
-				<div class="tracer"></div>
-			</label>
-			<p>Enable Desktop Notifications</p>
-		</div>
-		
-		<div class="optionWrapper showSName">
-			<input type="checkbox" id="showSName" class="toggleTracer">
+button, input[type="search"], input[type="text"] {
+	border: none;
+	outline: none;
+}
 
-			<label class="check" for="showSName">
-				<div class="tracer"></div>
-			</label>
-			<p>Show Sender Name</p>
-		</div>
-		
-		<div class="optionWrapper showPreview">
-			<input type="checkbox" id="showPreview" class="toggleTracer">
+input[type="checkbox"] {
+	margin: 7px;
+	margin-right: 15px;
+}
 
-			<label class="check" for="showPreview">
-				<div class="tracer"></div>
-			</label>
-			<p>Show Message Preview</p>
-		</div>
-		
-		<div class="optionWrapper playSounds">
-			<input type="checkbox" id="playSounds" class="toggleTracer">
+/* FIRST, THE OVERLAY ELEMENTS */
 
-			<label class="check" for="playSounds">
-				<div class="tracer"></div>
-			</label>
-			<p>Play Sounds</p>
-		</div>
-		
-		
-		<p class="confTitle">Other Settings</p>
-		
-			<div class="optionWrapper">
-				<input type="checkbox" id="checkNight" class="toggleTracer">
-				
-				<label class="check" for="checkNight">
-					<div class="tracer"></div>
-				</label>
-				<p>Night Mode</p>
-			</div>
-		
-	</section>
-</section>
+.alerts {
+	position: absolute;
+	bottom: 10px;
+	left: 10px;
+	z-index: 9999;
+	padding: 10px;
+	color: #666;
+	border-radius: 4px;
+	background: #FFF;
+	box-shadow: 0 0 7px 0 rgba(0,0,0,0.4);
+	display: none;
+}
+	/* side menu */
+.menuWrap {
+	position: absolute;
+	left: -320px;
+	width: 30%;
+	min-width: 240px;
+	max-width: 320px;
+    height: 100%;
+	z-index: 3;
+    top: 0;
+    transition: all .3s ease-in-out;
+}
 
+.menu {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	float: left;
+	background: #FFF;
+	box-shadow: 0 0 7px 0 rgba(0,0,0,0.4);
+}
 
+.menuWrap.openSidebar{
+	opacity: 1;
+	left: 0;
+}
+
+.me {
+	position: relative;
+	width: calc(100% - 50px);
+	height: 140px;
+	background: #419fd9;
+	padding: 15px 25px;
+	margin-bottom: 15px;
+}
+
+.me .image {
+	width: 70px;
+	height: 70px;
+	background: #FFF url(http://4.bp.blogspot.com/-BHhUazKytmw/VbCfWPqrOJI/AAAAAAAAB7c/qj6WVX3du-s/s1600/51b91bba5a3fd9b6c8b9c53bc0ab6c65.jpg) no-repeat center;
+	background-size: cover;
+	border-radius: 100%;
+	cursor: pointer;
+}
+
+.me .settings {
+	position: absolute;
+	right: 20px;
+	bottom: 65px;
+	width: 40px;
+	height: 40px;
+	padding-top: 2px;
+	color: #FFF;
+	border-radius: 100%;
+	background: rgba(0, 0, 0, 0.15);
+}
+
+.me .settings:hover {
+	background: rgba(0, 0, 0, 0.35);
+}
+
+.me .cloud {
+	position: absolute;
+	right: 20px;
+	bottom: 15px;
+	width: 40px;
+	height: 40px;
+	color: #FFF;
+	border-radius: 100%;
+	background: rgba(0, 0, 0, 0.09);
+}
+
+.me .cloud:hover {
+	background: rgba(0, 0, 0, 0.35);
+}
+
+.me .myinfo {
+	position: absolute;
+	bottom: 15px;
+	font-size: 14px;
+	color: #FFF;
+}
+
+.myinfo .name {
+	font-weight: 600;
+	margin-bottom: 5px;
+}
+
+.myinfo .phone {
+	font-weight: 300;
+}
+
+nav button {
+	width: 100%;
+	height: 45px;
+	background: #FFF;
+	text-align: left;
+	padding-left: 20px;
+	color: #666;
+}
+nav button img{
+    object-fit: cover;
+    width: 25px;
+    display: inline-flex;
+}
+
+nav {
+	float: left;
+	width: 100%;
+	height: auto;
+	max-height: 350px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+nav button:hover {
+	background: #EEE;
+}
+
+nav button > i {
+	color: #999;
+	float: left;
+}
+
+nav button > span {
+	display: inline-block;
+	margin-top: 5px;
+	margin-left: 20px;
+	font-weight: 600;
+	font-size: 14px;
+}
+
+.info {
+	position: absolute;
+	left: 20px;
+	bottom: 15px;
+	font-size: 12px;
+	color: #666;
+}
+</style>
