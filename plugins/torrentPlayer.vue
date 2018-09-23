@@ -1,81 +1,83 @@
 <template>
-	<section>
-		<div :class="[torrentInfo.isDone ? 'is-seed' : '']">
-			<div v-if="view == 'ExternalLink'"><!-- ExternalLink -->
-				<form class="ui form">
-					<div class="field">
-						<label>External Link</label>
-						<textarea v-model="externalLink" placeholder="External Link / Magnetic Link"></textarea>
-					</div>
-					<div class="field">
-						<label>Type</label>
-						<div class="ui selection">
-							<select id="external-type" v-model="externaType">
-								<option value="">Type</option>
-								<option value="1">WebPage</option>
-								<option value="2">Video</option>
-								<option value="3">Embed</option>
-								<option value="4">Torrent</option>
-							</select>
-						</div>
-					</div>
-					<button class="ui button" @click="OpenLink">Submit</button>
-				</form>
+	<section :class="[torrentInfo.isDone ? 'is-seed' : '', 'torrent-plugin']">
+		<div class="ui form" v-if="view == 'ExternalLink'"><!-- ExternalLink -->
+			<div class="field">
+				<label>External Link</label>
+				<textarea v-model="externalLink" placeholder="External Link / Magnetic Link"></textarea>
 			</div>
-			<div v-else-if="view == 'TorrentExplorer'"><!-- TorrentExplorer -->
-				<div class="ui show-content external-content"></div>
-			</div>
-
-			<div v-else-if="view == 'TorrentView'" class="ui show-content external-content"><!-- TorrentExplorer -->
-				<div id="hero">
-					<div id="output">
-						<div id="progressBar" :style="'width:' + torrentInfo.progressBar"></div>
-						<video id="video_stream" controls></video>
-					</div>
-					<!-- Statistics -->
-					<div id="status">
-						<div>
-							<span class="show-leech">Downloading </span>
-							<span class="show-seed">Seeding </span>
-							<code>
-								<a id="torrentLink"></a>
-							</code>
-							<span class="show-leech"> from </span>
-							<span class="show-seed"> to </span>
-							<code id="numPeers">{{ torrentInfo.numPeers }}</code>.
-						</div>
-						<div>
-							<code id="downloaded">{{ torrentInfo.downloaded }}</code> of 
-							<code id="total">{{ torrentInfo.total }}</code> — 
-							<span id="remaining">{{ torrentInfo.remaining }}</span>
-							<br/>
-							&#x2198;<code id="downloadSpeed">{{ torrentInfo.downloadSpeed }}</code> / &#x2197;<code id="uploadSpeed">{{ torrentInfo.uploadSpeed }}</code>
-						</div>
-						<span id="file-url"></span>
-					</div>
+			<div class="field">
+				<label>Type</label>
+				<div class="ui selection">
+					<select id="external-type" v-model="externalType">
+						<option value="">Type</option>
+						<option value="1">WebPage</option>
+						<option value="2">Video</option>
+						<option value="3">Embed</option>
+						<option value="4">Torrent</option>
+					</select>
 				</div>
 			</div>
+			<button class="ui button" @click="OpenLink">Submit</button>
+		</div>
+		<div class="ui show-content external-content" v-else-if="view == 'TorrentExplorer'">
+			<!-- TorrentExplorer -->
+		</div>
 
-			
-			<div v-else-if="view == 'ExternalView'"><!-- ExternalView -->
+		<div id="hero" v-else-if="view == 'TorrentView'" class="ui show-content external-content"><!-- TorrentExplorer -->
+			<div id="output">
+				<div id="progressBar" :style="'width:' + torrentInfo.progressBar"></div>
+				<video id="video_stream" controls></video>
+			</div>
+			<!-- Statistics -->
+			<div id="status">
 				<div>
-					<div v-if="type == 1">
-						<iframe class="iframe-external" :src="link" onload="this.style.height=this.contentDocument.body.scrollHeight +\'px\';" webkitallowfullscreen="true" allowfullscreen="true" frameborder="0" scrolling="no" sandbox="allow-forms allow-scripts allow-same-origin allow-pointer-lock"></iframe>
-					</div>
-					<div v-if="type == 2">
-						<video width="320" height="240" controls><source :src="link" type="video/mp4" /></video>
-							<!-- https://openload.co/stream/ym7b-E18i54~1520423927~83.240.0.0~P71ysq_1?mime=true -->
-					</div>
-					<div v-if="type == 3">
-						<div class="ui embed" data-url=' + link + '" data-placeholder="/images/image-16by9.png" data-icon="right circle arrow"></div>
-					</div>
+					<span class="show-leech">Downloading </span>
+					<span class="show-seed">Seeding </span>
+					<code>
+						<a id="torrentLink">{{ torrentInfo.link }}</a>
+					</code>
+					<span class="show-leech"> from </span>
+					<span class="show-seed"> to </span>
+					<code id="numPeers">{{ torrentInfo.numPeers }}</code>.
 				</div>
+				<div>
+					<code id="downloaded">{{ torrentInfo.downloaded }}</code> of
+					<code id="total">{{ torrentInfo.total }}</code> —
+					<span id="remaining">{{ torrentInfo.remaining }}</span>
+					<br/>
+					&#x2198;<code id="downloadSpeed">{{ torrentInfo.downloadSpeed }}</code> / &#x2197;<code id="uploadSpeed">{{ torrentInfo.uploadSpeed }}</code>
+				</div>
+				<span id="file-url"></span>
 			</div>
+		</div>
+
+
+		<!-- ExternalView -->
+		<iframe
+				v-else-if="view == 'ExternalView' && externalType == '1'"
+				class="iframe-external"
+				:src="externalLink"
+				onload="this.style.height=this.contentDocument.body.scrollHeight + 'px;'"
+				:height="iframe_height"
+				webkitallowfullscreen="true"
+				allowfullscreen="true"
+				frameborder="0"
+				sandbox="allow-forms allow-scripts allow-same-origin allow-pointer-lock">
+		</iframe><!-- scrolling="no" -->
+		<video v-else-if="view == 'ExternalView' && externalType == '2'" width="320" height="240" controls>
+			<source :src="link" type="video/mp4" />
+		</video>
+		<!-- https://openload.co/stream/ym7b-E18i54~1520423927~83.240.0.0~P71ysq_1?mime=true -->
+		<div v-else-if="view == 'ExternalView' && externalType == '3'" class="ui embed" :data-url="link" data-placeholder="/images/image-16by9.png" data-icon="right circle arrow">
+
 		</div>
 	</section>
 </template>
 
 <script>
+
+    const WebTorrent = require('webtorrent-hybrid');
+
 	export default {
 		name: 'torrentPlayer',
 		data() {
@@ -87,8 +89,7 @@
 					url: "https://dreamovies.tk/api/"
 				},
 				view: 'ExternalLink',
-				type: 0,
-				externaType: '',
+				externalType: '',
 				externalLink: '',
 				torrentObject: null,
 				torrentInfo: {
@@ -99,7 +100,8 @@
 					downloadSpeed: '0 b/s',
 					uploadSpeed: '0 b/s',
 					total: '0',
-					isDone: false
+					isDone: false,
+					link: '',
 				}
 			}
 		},
@@ -130,7 +132,6 @@
 
 			},
 			OpenTorrent(){
-				require('webtorrent-hybrid');
 				var magnetURI = this.externalLink;
 
 				//util_tools.createLoading();
@@ -158,7 +159,7 @@
 				//'https://zoink.ch/torrent/Marvels.Agents.of.S.H.I.E.L.D.S05E12.HDTV.x264-SVA[eztv].mkv.torrent'
 				var client = new WebTorrent();
 
-				this.view = "TorrentView";
+				this.$data.view = "TorrentView";
 
 				client.on('error', function (err) {
 					console.error('ERROR: ' + err.message)
@@ -199,7 +200,7 @@
 					// in the torrent.files array
 					//document.getElementById('video_stream').setAttribute("src", "http://localhost:8888/" + file_index);
 
-					document.getElementById('torrentLink').innerHTML = file.name;
+                    this.$data.torrentInfo.link = file.name;
 
 					file.getBlobURL(function (err, url) {
 						if (err) throw err;
@@ -245,13 +246,13 @@
 					// Statistics
 					function onProgress () {
 						// Peers
-						this.torrentInfo.numPeers = torrent.numPeers + (torrent.numPeers === 1 ? ' peer' : ' peers');
+						this.$data.torrentInfo.numPeers = torrent.numPeers + (torrent.numPeers === 1 ? ' peer' : ' peers');
 
 						// Progress
 						var percent = Math.round(torrent.progress * 100 * 100) / 100;
-						this.torrentInfo.progressBar = percent + '%';
-						this.torrentInfo.downloaded = prettyBytes(torrent.downloaded);
-						this.torrentInfo.total = prettyBytes(torrent.length);
+						this.$data.torrentInfo.progressBar = percent + '%';
+						this.$data.torrentInfo.downloaded = prettyBytes(torrent.downloaded);
+						this.$data.torrentInfo.total = prettyBytes(torrent.length);
 
 						// Remaining time
 						var remaining;
@@ -261,15 +262,15 @@
 							remaining = moment.duration(torrent.timeRemaining / 1000, 'seconds').humanize();
 							remaining = remaining[0].toUpperCase() + remaining.substring(1) + ' remaining.';
 						}
-						this.torrentInfo.remaining = remaining;
+						this.$data.torrentInfo.remaining = remaining;
 
 						// Speed rates
-						this.torrentInfo.downloadSpeed = prettyBytes(torrent.downloadSpeed) + '/s';
-						this.torrentInfo.uploadSpeed = prettyBytes(torrent.uploadSpeed) + '/s';
+						this.$data.torrentInfo.downloadSpeed = prettyBytes(torrent.downloadSpeed) + '/s';
+						this.$data.torrentInfo.uploadSpeed = prettyBytes(torrent.uploadSpeed) + '/s';
 					}
 
 					function onDone () {
-						this.torrentInfo.isDone = true;
+						this.$data.torrentInfo.isDone = true;
 						onProgress();
 						Event.$emit("notification", {
 							desktop: true,
@@ -307,7 +308,7 @@
 				var type = this.externalType;
 				
 				if (!/^(f|ht)tps?:\/\//i.test(link)) {
-					link = "http://" + link;
+                    this.externalLink = "http://" + link;
 				}
 				if(type == "4"){
 					this.OpenTorrent();
@@ -330,47 +331,55 @@
 		}
 	}
 </script>
-<style>
-#output video {
-	width: 100%;
-}
-#progressBar {
-	height: 5px;
-	width: 0%;
-	background-color: #35b44f;
-	transition: width .4s ease-in-out;
-}
-body.is-seed .show-seed {
-	display: inline;
-}
-body.is-seed .show-leech {
-	display: none;
-}
-.show-seed {
-	display: none;
-}
-#status code {
-	font-size: 90%;
-	font-weight: 700;
-	margin-left: 3px;
-	margin-right: 3px;
-	border-bottom: 1px dashed rgba(255,255,255,0.3);
-}
 
-.is-seed #hero {
-	background-color: #154820;
-	transition: .5s .5s background-color ease-in-out;
-}
-#hero {
-	background-color: #2a3749;
-}
-#status {
-	color: #fff;
-	font-size: 17px;
-	padding: 5px;
-}
-a:link, a:visited {
-	color: #30a247;
-	text-decoration: none;
-}
+<style>
+	#output video {
+		width: 100%;
+	}
+	#progressBar {
+		height: 5px;
+		width: 0%;
+		background-color: #35b44f;
+		transition: width .4s ease-in-out;
+	}
+	body.is-seed .show-seed {
+		display: inline;
+	}
+	body.is-seed .show-leech {
+		display: none;
+	}
+	.show-seed {
+		display: none;
+	}
+	#status code {
+		font-size: 90%;
+		font-weight: 700;
+		margin-left: 3px;
+		margin-right: 3px;
+		border-bottom: 1px dashed rgba(255,255,255,0.3);
+	}
+
+	.is-seed #hero {
+		background-color: #154820;
+		transition: .5s .5s background-color ease-in-out;
+	}
+	#hero {
+		background-color: #2a3749;
+	}
+	#status {
+		color: #fff;
+		font-size: 17px;
+		padding: 5px;
+	}
+	a:link, a:visited {
+		color: #30a247;
+		text-decoration: none;
+	}
+	.torrent-plugin,
+	.torrent-plugin > div,
+	iframe{
+		width: 100%;
+		height: 100%;
+		position: relative;
+	}
 </style>

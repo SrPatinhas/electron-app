@@ -1,7 +1,6 @@
 import Vue from 'vue';
 
 import App from './App.vue';
-import topbar from "./components/topbar.vue";
 
 import VueIziToast from 'vue-izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
