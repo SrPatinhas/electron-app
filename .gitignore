@@ -60,3 +60,10 @@ typings/
 
 # next.js build output
 .next
+
+# webstorm folder
+.idea/
+
+package-lock.json
+package-lock.json
+package-lock.json

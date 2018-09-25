@@ -4,6 +4,9 @@ import App from './App.vue';
 
 import VueIziToast from 'vue-izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
+
+import './style/core.css';
+
 Vue.use(VueIziToast);
 
 //import Plugins

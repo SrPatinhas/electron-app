@@ -1,7 +1,7 @@
 <template>
 	<div class="app">
 		<topbar :pluginsList="plugins"></topbar>	
-		<div class="content" :class="[openMenu ? 'overlay-show' : '']">
+		<div class="app-content" :class="[openMenu ? 'overlay-show' : '']">
 			<Sidebar :open="openMenu"></Sidebar>
   			<component :is="pluginModule"></component>
 		</div>
@@ -57,31 +57,5 @@
 <style>
 	@import url("../../public/font/fontawesome-5.3.1/css/all.min.css");
 	@import url("../../semantic/dist/semantic.min.css");
-	html,
-	body{
-		padding: 0;
-		margin: 0;
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 100%;
-		-webkit-app-region: no-drag;
-	}
-	.app {
-		width: 100%;
-		height: 100%;
-		position: relative;
-		display: block;
-		background: #eee;
-		/*border-radius: 5px;
-		border: 1px solid #dadada;
-		box-sizing: border-box;
-		overflow: hidden;*/
-	}
-	.content {
-		width: 100%;
-		height: calc(100% - 30px);
-		background: #599df0;
-		position: relative;
-	}
+	@import url("style/core.css");
 </style>
