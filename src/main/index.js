@@ -13,10 +13,10 @@ var app_config 		= {
     "localCache": "",
     "title": "DreaMovies App",
     "window": {
-        "width": 1280,
-        "height": 800,
-        "minWidth": 800,
-        "minHeight": 600,
+        "width": 1400,
+        "height": 1000,
+        "minWidth": 1280,
+        "minHeight": 800,
         "backgroundColor": "#232e4e"
     },
     "languageList": ["pt", "en", "es"],
