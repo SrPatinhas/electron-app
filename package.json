@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "electron-webpack dev",
-		"build": "electron-webpack && electron-builder"
+		"build": "electron-webpack && electron-builder -w"
 	},
 	"author": "SrPatinhas",
 	"license": "MIT",

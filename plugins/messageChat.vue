@@ -4,7 +4,8 @@
             <button @click="endCall" class="ui circular inverted red button">
                 <i class="times icon"></i>
             </button>
-            <video :src="call.video_link" autoplay="true"></video>
+            <video class="local-video" :src="call.local_video" id="localVideo" autoplay muted></video>
+            <video class="remote-video" :src="call.remote_video" id="remoteVideo" autoplay></video>
         </div>
 
         <div class="four wide column contacts-list">
@@ -63,6 +64,18 @@
                                     </div>
                                     <div v-if="comment.media.length > 0" class="extra ui tiny images">
                                         <img v-for="media in comment.media" class="ui image" :src="media.url" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div v-if="isWriting" class="left aligned ui segment basic">
+                            <div class="ui compact segment comment">
+                                <div class="content">
+                                    <div class="text">
+                                        <span class="ui grey empty circular label"></span>
+                                        <span class="ui grey empty circular label"></span>
+                                        <span class="ui grey empty circular label"></span>
                                     </div>
                                 </div>
                             </div>
@@ -174,10 +187,12 @@
                 call:{
                     showCall: false,
                     stream: null,
-                    video_link: null,
+                    local_video: null,
+                    remote_video: null,
                     contact: null,
                 },
                 message: null,
+                isWriting: false,
             }
         },
         created() {
@@ -197,7 +212,7 @@
                     .then(stream => {
                         self.call.stream = stream;
                         self.call.showCall = true;
-                        self.call.video_link = URL.createObjectURL(stream);
+                        self.call.local_video = URL.createObjectURL(stream);
                     })
                     .catch( (err) =>{
                         console.log(err);
@@ -232,6 +247,8 @@
                 this.getMessages();
             },
             getMessages(){
+                this.messages = [];
+
                 let comment = function(media, name){
                     let random_bool = Math.random();
                     let msg = {
@@ -260,6 +277,9 @@
                 this.messages.push(comment(0, this.contact_active.name));
                 this.messages.push(comment(0, this.contact_active.name));
                 this.messages.push(comment(0, this.contact_active.name));
+            },
+            writing(){
+                this.isWriting = !this.isWriting;
             }
         }
     }
@@ -390,9 +410,22 @@
         top: 20px;
         right: 20px;
     }
-    .video-call video{
+    .video-call .local-video{
+        width: 300px;
+        height: 300px;
+        background: #0f0f10;
+        position: absolute;
+        right: 20px;
+        bottom: 20px;
+        -webkit-box-shadow: 0px 0px 3px #000;
+        -moz-box-shadow: 0px 0px 3px #000;
+        box-shadow: 0px 0px 3px #000;
+        z-index: 9;
+    }
+    .video-call .remote-video{
         width: 100%;
         height: 100%;
         position: relative;
+        z-index: 7;
     }
 </style>
