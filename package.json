@@ -1,4 +1,5 @@
 {
+	"homepage": "https://github.com/SrPatinhas/electron-app#electron-app",
 	"name": "electron-app",
 	"version": "0.1.0",
 	"description": "",
@@ -8,7 +9,42 @@
 		"build": "electron-webpack && electron-builder -w"
 	},
 	"author": "SrPatinhas",
-	"license": "MIT",
+	"license": "GPL-3.0",
+	"bugs": {
+		"url": "https://github.com/SrPatinhas/electron-app/issues"
+	},
+	"build": {
+		"appId": "org.dreamovies.desktop",
+		"productName": "Dreamovies Desktop — Core Edition",
+		"copyright": "Copyright © 2016-2018 Dreamovies.tk",
+		"files": [
+			"**/*",
+			"build/index.js",
+			"build/index.css",
+			"build/themes.js",
+			"build/themes.css"
+		],
+		"linux": {
+			"target": "deb"
+		},
+		"win": {
+			"target": "nsis"
+		},
+		"mac": {
+			"target": "dmg",
+			"category": "public.app-category.video"
+		}
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/foradoeixo/tvninja.git"
+	},
+	"keywords": [
+		"react",
+		"components",
+		"butterproject",
+		"butter"
+	],
 	"devDependencies": {
 		"css-loader": "^1.0.0",
 		"electron": "latest",
@@ -24,6 +60,7 @@
 		"webpack": "latest"
 	},
 	"dependencies": {
+		"axios": "^0.18.0",
 		"cheerio": "latest",
 		"iconv-lite": "latest",
 		"jquery": "latest",
@@ -43,6 +80,7 @@
 		"videojs-hotkeys": "latest",
 		"videojs-select-subtitle": "latest",
 		"vue-izitoast": "^1.1.0",
+		"vue-timeago": "^5.0.0",
 		"vuex": "^3.0.1",
 		"webtorrent": "latest",
 		"webtorrent-hybrid": "latest"

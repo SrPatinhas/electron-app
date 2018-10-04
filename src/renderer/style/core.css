@@ -8,6 +8,7 @@ body{
   width: 100%;
   height: 100%;
   -webkit-app-region: no-drag;
+  overflow: hidden;
 }
 .app {
   width: 100%;
@@ -26,6 +27,7 @@ body{
   height: 100%;
   background: #599df0;
   position: relative;
+  overflow-x: auto;
 }
 
 .app-bar {

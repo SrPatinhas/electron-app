@@ -5,6 +5,10 @@ import App from './App.vue';
 import VueIziToast from 'vue-izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
+import VueTimeago from 'vue-timeago';
+
+window.axios = require('axios');
+
 import './style/core.css';
 
 Vue.use(VueIziToast);
@@ -12,6 +16,8 @@ Vue.use(VueIziToast);
 //import Plugins
 import upperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
+
+const app = require("electron");
 
 const requireComponent = require.context(
   // The relative path of the components folder
@@ -52,6 +58,10 @@ requireComponent.keys().forEach(fileName => {
 });
 
 window.Event = new Vue(); //Handling events between siblings and grandparent to grandsons etc...
+
+
+Vue.use(VueTimeago);
+
 
 new Vue({
 	el: '#app',

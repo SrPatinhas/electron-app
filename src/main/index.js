@@ -28,29 +28,30 @@ var ol = openload({
     api_key: 'umPGoUXZ',
 });
 
+const home_path = app.getPath("documents");
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 app.on('ready', () => {
-	let window = new BrowserWindow({
+	let mainWindow = new BrowserWindow({
 		width: 1024,
 		frame: false,
 		titleBarStyle: 'hidden',
 	});
 	if (isDevelopment) {
-		window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`)
+		mainWindow.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`)
 	} else {
-		window.loadURL(formatUrl({
+		mainWindow.loadURL(formatUrl({
 			pathname: path.join(__dirname, 'index.html'),
 			protocol: 'file',
 			slashes: true
 		}))
 	}
-	window.on("closed", () => {
-		window = null;
+	mainWindow.on("closed", () => {
+		mainWindow = null;
 	});
 
-    window.webContents.on('new-window', function(e, url) {
+    mainWindow.webContents.on('new-window', function(e, url) {
         e.preventDefault();
     });
 });
