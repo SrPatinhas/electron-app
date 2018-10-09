@@ -21,51 +21,45 @@
 			<button class="ui button" @click="SearchTorrentShow(1)">Search In EZTV torrents</button>
 			<button class="ui button" @click="SearchTorrentMovie(1)">Search In YTS torrents</button>
 		</div>
-		<div class="ui container segment show-content external-content" v-else-if="view == 'TorrentExplorer'">
+		<div class="ui container show-content external-content" v-else-if="view == 'TorrentExplorer'">
 			<!-- TorrentExplorer -->
-			<div class="ui feed">
-				<div class="event ui vertical segment" v-for="torrent in torrentResponse.torrents">
-					<div class="label">
-						<img v-if="torrentResponse.type == 'shows'" :src="torrent.small_screenshot">
-						<img v-else-if="torrentResponse.type == 'movies'" :src="torrent.medium_cover_image">
-					</div>
+			<div class="ui feed segment">
+				<div class="event ui vertical segment list-item" v-for="torrent in torrentResponse.torrents">
+					<img v-if="torrentResponse.type == 'shows'" :src="torrent.small_screenshot">
+					<img v-else-if="torrentResponse.type == 'movies'" :src="torrent.medium_cover_image">
 					<div class="content">
 						<div class="date">
 							<timeago v-if="torrentResponse.type == 'shows'" :datetime="humanTime(torrent.date_released_unix)" :auto-update="60"></timeago>
 							<timeago v-else-if="torrentResponse.type == 'movies'" :datetime="torrent.date_uploaded" :auto-update="60"></timeago>
 						</div>
 						<div class="summary">
-							<a>{{ torrent.title }}</a> -
-							<span v-if="torrentResponse.type == 'shows'">
+							<a>{{ torrent.title }}</a>
+							<div v-if="torrentResponse.type == 'shows'">
 								Season: {{ torrent.season }} - Episode: {{ torrent.episode }}
-							</span>
-							<span v-else-if="torrentResponse.type == 'movies'">
+							</div>
+							<div v-else-if="torrentResponse.type == 'movies'">
 								Year: {{ torrent.year }} - RunTime: {{ torrent.runtime }} - Language: {{ torrent.language }}
-							</span>
+							</div>
 						</div>
-						<div class="extra text">
-							<span v-if="torrentResponse.type == 'shows'">
-								IMDB: {{ torrent.imdb_id }} - {{ humanSize(torrent.size_bytes) }}<br>
-								Seeds: {{ torrent.seeds }} - Peers: {{ torrent.peers }}
-								<div class="ui button" @click="OpenExternalTorrent(torrent.magnet_url)">See</div>
-							</span>
-							<span v-else-if="torrentResponse.type == 'movies'">
-								<div class="ui button" v-for="quality in torrent.torrents" @click="OpenExternalTorrent(quality.url)">
-									{{ quality.quality }} [Seeds: {{ quality.seeds }} - Peers: {{ quality.peers }}] ({{ quality.size }})
-								</div>
-							</span>
+						<div v-if="torrentResponse.type == 'shows'" class="ui right floated button" @click="OpenExternalTorrent(torrent.magnet_url)">See</div>
+						<div v-else-if="torrentResponse.type == 'movies'" class="ui right floated button" v-for="quality in torrent.torrents" @click="OpenExternalTorrent(quality.url)">
+							{{ quality.quality }} [Seeds: {{ quality.seeds }} - Peers: {{ quality.peers }}] ({{ quality.size }})
+						</div>
+						<div class="extra text" v-if="torrentResponse.type == 'shows'">
+							IMDB: {{ torrent.imdb_id }} - {{ humanSize(torrent.size_bytes) }}<br>
+							Seeds: {{ torrent.seeds }} - Peers: {{ torrent.peers }}
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="ui buttons" v-if="torrentResponse.type == 'shows'">
+			<div class="ui buttons segment" v-if="torrentResponse.type == 'shows'">
 				<button class="ui button" @click="SearchTorrentShow(1)">[1] First Page</button>
 				<button class="ui button" @click="SearchTorrentShow(torrentResponse.page - 1)">[{{ torrentResponse.page - 1 }}] Previous Page</button>
 				<button class="ui button disabled">[{{ torrentResponse.page }}] Current Page</button>
 				<button class="ui button" @click="SearchTorrentShow(torrentResponse.page + 1)">[{{ torrentResponse.page + 1 }}] Next Page</button>
 				<button class="ui button" @click="SearchTorrentShow(Math.ceil(torrentResponse.torrents_count / torrentResponse.limit))">[{{ Math.ceil(torrentResponse.torrents_count / torrentResponse.limit) }}] Last Page</button>
 			</div>
-			<div class="ui buttons" v-if="torrentResponse.type == 'movies'">
+			<div class="ui buttons segment" v-if="torrentResponse.type == 'movies'">
 				<button class="ui button" @click="SearchTorrentMovie(1)">[1] First Page</button>
 				<button class="ui button" @click="SearchTorrentMovie(torrentResponse.page - 1)">[{{ torrentResponse.page - 1 }}] Previous Page</button>
 				<button class="ui button disabled">[{{ torrentResponse.page }}] Current Page</button>
@@ -260,7 +254,7 @@
                     params: {
                         limit: self.torrentResponse.limit,
                         page: page_number,
-                        sort_by:
+                        sort_by: "date_added"
                     }
                 })
                     .then(function (response) {
@@ -530,6 +524,9 @@
 		color: #30a247;
 		text-decoration: none;
 	}
+	.torrent-plugin{
+		padding: 20px 0;
+	}
 	.torrent-plugin,
 	.torrent-plugin > div,
 	iframe{
@@ -579,5 +576,12 @@
 	a:link, a:visited {
 		color: #30a247;
 		text-decoration: none;
+	}
+	.ui.feed>.event>.content {
+		padding: 0 10px;
+	}
+
+	.list-item img{
+		height: 90px;
 	}
 </style>

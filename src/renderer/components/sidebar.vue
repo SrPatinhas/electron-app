@@ -10,7 +10,7 @@
 						<p class="phone">+1 12 1234 5678</p>
 					</div>
 
-					<button class="settings">
+					<button class="settings" @click="toggleSettings">
 						<i class="fas fa-cog"></i>
 					</button>
 
@@ -66,7 +66,10 @@
 						this.pluginsList[index].active = false;
 					}
 				}
-			}
+			},
+			toggleSettings(){
+                Event.$emit('toggleSettings');
+			},
 		},
 	}
 </script>

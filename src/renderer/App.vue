@@ -4,6 +4,7 @@
 		<div class="app-content" :class="[openMenu ? 'overlay-show' : '']">
 			<Sidebar :open="openMenu"></Sidebar>
   			<component :is="pluginModule"></component>
+			<settings v-if="showSettings"></settings>
 		</div>
 		<alert></alert>
 	</div>
@@ -13,10 +14,12 @@
 	import topbar from "./components/topbar";
 	import Sidebar from "./components/sidebar";
 	import alert from "./components/alert";
+    import settings from "./pages/settings";
 
 	export default {
 		name: "core",
 		components: {
+            settings,
 			topbar,
 			Sidebar,
 			alert,
@@ -26,7 +29,8 @@
 			return {
 				name: 'Electron app',
 				openMenu: false,
-				pluginModule: "localMedia"
+				pluginModule: "localMedia",
+                showSettings: false,
 			}
 		},
 		created() {
@@ -37,6 +41,11 @@
 			Event.$on('sidebarClose', function () {
 				self.close();
 			});
+            Event.$on('toggleSettings', function () {
+                console.log("toggle settings");
+                self.showSettings = !self.showSettings;
+                self.close();
+            });
 
 			Event.$on('changeModule', function (plugin) {
 				console.log(plugin);

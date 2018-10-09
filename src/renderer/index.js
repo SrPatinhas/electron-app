@@ -17,7 +17,8 @@ Vue.use(VueIziToast);
 import upperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
 
-const app = require("electron");
+import { remote } from 'electron';
+import fs from 'fs';
 
 const requireComponent = require.context(
   // The relative path of the components folder
@@ -63,11 +64,16 @@ window.Event = new Vue(); //Handling events between siblings and grandparent to 
 Vue.use(VueTimeago);
 
 
+import db from './datastore';
+Vue.component('db', db);
+
 new Vue({
+	name: 'app',
 	el: '#app',
+    mixins: [db],
 	data() {
 		return {
-			pluginsList: window.pluginList
+			pluginsList: window.pluginList,
 		}
 	},
 	render(createElement) {
@@ -77,4 +83,4 @@ new Vue({
 					}
 				});
 	}
-})
+});
